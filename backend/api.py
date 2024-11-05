@@ -20,7 +20,7 @@ while True:
         client = MongoClient('mongodb', 27017)
         break
     except:
-        time.sleep(1)
+        time.sleep(5)
 
 # Get db & collections
 db = client[config["db"]["name"]]

@@ -16,7 +16,6 @@
             fetch(`/get_process_step`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     // Check if we need to redirect
                     if (data.redirect) {
                         if (data.redirect === 'see_request' && data.pending_id) {

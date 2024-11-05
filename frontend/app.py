@@ -2,6 +2,7 @@ from flask import Flask, render_template,request, jsonify,  redirect, url_for
 import json
 import requests
 import time  
+import html 
 
 CONFIG_PATH = 'config.json'
 # Initialize UserService with the configuration
@@ -133,7 +134,7 @@ def new_request():
     if session['user_id'] is None or session['session_id'] is None:
         return render_template('home.html')
     if request.method == 'POST':
-        input =  request.form['request']
+        input =   html.unescape(request.form['request'])
         session['last_input'] = input
         url = url_root + 'pending/new_request'
         payload = {
