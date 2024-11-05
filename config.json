@@ -36,7 +36,7 @@
     },
     "camembert_model" : {
         "model_path" : "models/3_camembert-base",
-        "max_length" : 500,
+        "max_length" : 512,
         "improvement" : "finish"
     },
     "score_rules" : {
