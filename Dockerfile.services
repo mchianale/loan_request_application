@@ -1,0 +1,14 @@
+# Dockerfile.services
+FROM python:3.10.1
+
+WORKDIR /usr/src/app
+
+COPY config.json .
+COPY models ./models
+COPY services/requirements.txt .
+COPY services/features/data ./services/features/data
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY services/ .
+
+CMD ["python", "app.py"]

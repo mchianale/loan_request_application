@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouvelle Demande - en cours</title>
+    <link rel="stylesheet" href="/static/styles.css"> <!-- Link to CSS -->
+    <script>
+        const maxSteps = 3; // Maximum steps in the process
+
+        function updateProcessStep() {
+            fetch(`/get_process_step`)
+                .then(response => response.json())
+                .then(data => {
+                    // Check if we need to redirect
+                    console.log(data)
+                    if (data.redirect) {
+                        if (data.redirect === 'see_request' && data.pending_id) {
+                            // Redirect to the see_request route with the pending ID
+                            window.location.href = `/see_request/${data.pending_id}`;
+                        } else {
+                            // Handle any other redirects if necessary
+                            window.location.href = '/'; // Default redirect
+                        }
+                        return; // Stop execution if redirecting
+                    }
+                    
+                    // Check for an error message in the response
+                    if (data.message_error) {
+                        // Display the error message and the retry button
+                        document.getElementById('error-message').textContent = data.message_error;
+                        document.getElementById('error-popup').style.display = 'block';
+                        return; // Stop further updates if there is an error
+                    }
+
+                    // Update progress display
+                    document.getElementById('progress-text').textContent = `${data.step}/${maxSteps}`;
+                    document.getElementById('process-title').textContent = data.process.title;
+                    document.getElementById('process-description').textContent = data.process.description;
+                })
+                .catch(error => console.error('Error fetching process step:', error));
+        }
+
+        // Call updateProcessStep every 0.5 seconds
+        setInterval(updateProcessStep, 500);
+    </script>
+</head>
+<body>
+    <div class="background-image"></div> <!-- Fullscreen blurred background -->
+    <div class="process-container">
+        <div class="loading-circle">
+            <span id="progress-text">1/3</span> <!-- Corrected ID -->
+        </div>
+        <div class="loading-text">
+            <h2 id="process-title">Chargement de la demande</h2> <!-- Corrected ID -->
+            <p id="process-description">Évaluation textuelle de votre demande...</p> <!-- Corrected ID -->
+        </div>
+    </div>
+    <!-- Error Popup -->
+    <div id="error-popup" class="error-popup" style="display: none;">
+        <h2>Oups, il semblerait qu'il y est eu une erreur :</h2>
+        <p id="error-message"></p>
+        <a href="/retry" class="button confirm-button">Ressayer</a>
+    </div>
+</body>
+</html>

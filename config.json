@@ -1,0 +1,108 @@
+{
+    "tns_name" : "spyne.loan.application.service",
+    "timer" : 1,
+    "db" : {
+      "name" : "loan_service_db",
+      "loan_pendings" : "loan_pendings",
+      "loan_requests" : "loan_requests",
+      "users" : "users"
+    },
+    "backend_service" : {
+      "port" : 5001
+    },
+    "flask_frontend" : {
+      "port" : 5002
+    },
+    "services" : {
+        "ServiceExtraction" : {
+            "port" : 8001,
+            "description" : "Extract entities from requests using finetuned transformers model and clean output using nlp rules.",
+            "improvement" : "finish"
+        },
+        "CreditCheckService" : {
+            "port" : 8002,
+            "description" : "The Credit Check service is responsible for assessing the financial capacity of the customer to repay the loan.",
+            "improvement" : "finish"
+        },
+        "PropertyValuationService" : {
+            "port" : 8003,
+            "description" : "The Property Valuation department is responsible for estimating the market value of the property for which the loan is requested",
+            "improvement" : "finish"
+        },
+        "ApprovalDecisionService" : {
+            "port" : 8004,
+            "description" : "The Approval Decision service analyzes the data collected during the stages (Credit Check and Property Valuation) to determine if the home loan can be approved",
+            "improvement" : "to make"
+        }
+    },
+    "camembert_model" : {
+        "model_path" : "models/3_camembert-base",
+        "max_length" : 500,
+        "improvement" : "finish"
+    },
+    "score_rules" : {
+        "user_score" : {
+            "debt_ratio_weight" : 0.8,
+            "user_situation_score_weight" : 0.2
+        },
+        "property_score" : {
+            "rental_yield_score_weight" : 0.7,
+            "monthly_cash_flow_score_weight" : 0.3
+        },
+        "global_score" : {
+            "user_score_weight" : 0.6,
+            "property_score_weight" : 0.4
+        },
+        "rules" : {
+            "confidence_min" : 10,
+            "debt_ratio_max" : 45,
+            "global_score_min"  : 50
+        },
+        "message_not_approve" : {
+            "confidence" : "Nous regrettons de vous informer que nous ne sommes pas en mesure d'approuver votre demande de prêt dans sa forme actuelle. Cette décision ne reflète pas une évaluation négative de votre profil, mais résulte d'un manque d'informations complètes dans votre dossier.\nIl est également possible que cette situation provienne d'une erreur de notre côté. Nous vous invitons à nous fournir les éléments manquants ou à nous contacter pour clarifier la situation.",
+            "debt_ratio": "Après examen de votre dossier, nous regrettons de vous informer que nous ne sommes pas en mesure d'approuver votre demande de prêt. En effet, votre taux d'endettement dépasse le seuil de 45%, ce qui représente un risque important pour vous et pour nous.\n\nLe taux d'endettement est un indicateur clé qui permet de mesurer la part de vos revenus mensuels consacrée au remboursement de vos dettes. Un taux supérieur à 45% signifie qu'une part trop importante de vos revenus est déjà engagée, ce qui pourrait rendre difficile le remboursement de nouvelles échéances en cas d’imprévu financier.\n\nPour améliorer vos chances d'obtenir un prêt, nous vous conseillons de :\n\n1. Réduire vos charges actuelles (par exemple, en remboursant certaines dettes ou en réduisant vos dépenses mensuelles).\n2. Augmenter vos revenus si cela est possible.\n3. Revoir le montant du prêt demandé pour adapter la somme empruntée à vos capacités de remboursement.\n\nNous restons à votre disposition pour vous accompagner dans l'optimisation de votre demande.",
+            "global_score": "Après étude de votre demande, nous constatons que votre score global, qui évalue à la fois votre profil et votre projet immobilier, est malheureusement trop bas pour être conforme à notre politique d'octroi de prêts.\n\nCe score prend en compte plusieurs critères, notamment la solidité de votre situation financière et la faisabilité de votre projet immobilier. Un score trop faible indique des points de fragilité, soit dans votre profil, soit dans la cohérence du projet.\n\nPour améliorer vos chances d'obtenir un prêt, nous vous conseillons de :\n\n1. Revoir certains aspects de votre projet immobilier (par exemple, en ajustant le montant du prêt ou en choisissant un bien plus en adéquation avec votre situation).\n2. Renforcer votre profil financier (par exemple, en stabilisant vos revenus ou en réduisant certaines charges).\n3. Revenir vers nous avec un dossier optimisé, en prenant en compte les ajustements nécessaires.\n\nNous restons à votre disposition pour toute assistance afin de réévaluer votre demande."
+        },
+        "message_approve" : {
+            "sep_message" : "[SEP]",
+            "confidence_null" : {
+                "user_score" : "Votre demande a été approuvée, mais nous vous invitons à préciser davantage vos informations personnelles (situation professionnelle, financière, etc.), car nous n'avons pas pu évaluer pleinement votre profil.",
+                "property_score" : "Votre demande a été approuvée, mais nous vous invitons à préciser davantage les informations liées à la propriété que vous souhaitez acquérir. Cela vous permettra d'obtenir un retour plus pertinent de la part de notre service."
+            },
+            "user_score": {
+              "low": {
+                "low": "Après analyse de votre dossier, nous avons constaté que votre profil présente certaines faiblesses qui pourraient compromettre l'obtention de votre prêt. De plus, certaines informations cruciales manquent ou sont incomplètes, ce qui réduit notre capacité à évaluer correctement votre situation.\n\nPour améliorer vos chances d'obtenir un prêt, nous vous recommandons de :\n1. Compléter les informations manquantes dans votre dossier.\n2. Fournir des détails plus précis sur votre situation financière et professionnelle.\n3. Revoir vos charges et dettes afin de renforcer votre dossier.",
+                "mid": "Votre profil montre quelques faiblesses qui pourraient affecter la décision d'octroi de votre prêt. Il semble également que certaines informations sont incomplètes ou manquantes, ce qui limite notre capacité à vous évaluer pleinement.\n\nPour améliorer votre dossier, il serait utile de :\n1. Fournir les informations manquantes ou incomplètes.\n2. Assurer une meilleure visibilité de votre situation financière actuelle.\n3. Réduire certaines de vos charges si possible.",
+                "high": "Malgré un profil complet, votre demande d'emprunt semble présenter des faiblesses par rapport à votre situation actuelle. Il est possible que la somme demandée ou vos obligations financières actuelles réduisent votre capacité d’emprunt.\n\nNous vous conseillons de :\n1. Réévaluer vos besoins d'emprunt.\n2. Examiner vos charges pour identifier des pistes de réduction.\n3. Optimiser votre situation financière pour augmenter vos chances d'approbation."
+              },
+              "mid": {
+                "low": "Votre profil est modérément satisfaisant pour l’obtention d’un prêt. Cependant, il manque certaines informations importantes, ce qui réduit notre capacité à évaluer complètement votre situation. Une mise à jour de ces données pourrait considérablement améliorer votre dossier.\n\nPour renforcer votre demande, nous vous recommandons de :\n1. Compléter les informations manquantes.\n2. Améliorer la visibilité de votre situation financière.\n3. Revoir votre demande en fonction de vos revenus et charges actuelles.",
+                "mid": "Votre profil est acceptable pour l'obtention du prêt, mais quelques informations sont manquantes. Cela empêche une évaluation complète de votre dossier.\n\nPour optimiser vos chances, nous vous conseillons de :\n1. Compléter toutes les informations demandées.\n2. Revoir vos obligations financières pour assurer une meilleure stabilité.\n3. Adapter votre demande d’emprunt à vos capacités actuelles.",
+                "high": "Votre profil est modéré et semble correspondre à une demande d'emprunt raisonnable. Cependant, il y a encore des éléments à renforcer, notamment en ce qui concerne vos revenus et charges actuels, pour maximiser vos chances d'obtenir un prêt dans les meilleures conditions."
+              },
+              "high": {
+                "low": "Votre profil est solide pour l’obtention d’un prêt, mais notre confiance dans cette évaluation est réduite en raison de certaines informations manquantes ou imprécises. Une mise à jour de ces données pourrait renforcer votre dossier.\n\nPour améliorer votre situation, nous vous conseillons de :\n1. Compléter ou corriger les informations fournies.\n2. Veiller à ce que toutes les données financières soient à jour.",
+                "mid": "Votre profil est bon et vous êtes bien positionné pour l’obtention du prêt. Cependant, quelques informations semblent manquantes, ce qui pourrait limiter votre évaluation globale.\n\nNous vous recommandons de :\n1. Compléter les informations manquantes.\n2. Assurer que vos données financières sont à jour.",
+                "high": "Votre profil est solide et complet. Vous êtes bien positionné pour l’obtention du prêt en fonction de votre demande actuelle. Continuez à maintenir cette stabilité financière pour assurer la réussite de votre projet."
+              }
+            },
+            "property_score": {
+              "low": {
+                "low": "Le projet immobilier soumis semble présenter certaines faiblesses par rapport aux exigences pour l’obtention d’un prêt. De plus, des informations manquent ou sont incomplètes, ce qui empêche une évaluation précise du bien.\n\nPour améliorer vos chances d'obtenir un prêt, nous vous conseillons de :\n1. Compléter les informations relatives au bien immobilier.\n2. Revoir les détails financiers de votre projet pour le rendre plus solide.\n3. Assurer que le projet correspond à votre capacité d'emprunt.",
+                "mid": "Votre projet immobilier semble insuffisant par rapport à votre demande d'emprunt. Il manque également certaines informations sur le bien, ce qui empêche une évaluation complète.\n\nPour renforcer votre dossier, nous vous suggérons de :\n1. Ajouter les détails manquants sur le projet immobilier.\n2. Évaluer la cohérence entre le projet et votre situation financière actuelle.\n3. Envisager un projet plus adapté à vos capacités.",
+                "high": "Le projet immobilier présente des faiblesses malgré un dossier complet. Cela peut indiquer que le bien ou le montant demandé dépasse vos capacités actuelles.\n\nNous vous conseillons de :\n1. Revoir votre projet immobilier.\n2. Évaluer si le montant du prêt demandé est réaliste par rapport à vos finances.\n3. Ajuster certains aspects du projet pour maximiser vos chances d'obtention du prêt."
+              },
+              "mid": {
+                "low": "Votre projet immobilier est modéré, mais certaines informations manquent, ce qui réduit notre confiance dans l'évaluation. Un complément d'informations pourrait permettre une analyse plus précise.\n\nPour améliorer vos chances d'obtenir un prêt, nous vous conseillons de :\n1. Compléter les informations manquantes sur le bien.\n2. Vérifier la cohérence du projet avec vos finances.\n3. Ajuster le montant du prêt si nécessaire.",
+                "mid": "Le projet immobilier est acceptable, mais il manque quelques informations. Ces informations pourraient améliorer notre évaluation et renforcer votre dossier.\n\nNous vous suggérons de :\n1. Ajouter les informations manquantes sur le bien.\n2. Revoir le projet pour s'assurer qu'il correspond bien à vos capacités financières.\n3. Envisager d'ajuster votre demande de prêt en conséquence.",
+                "high": "Votre projet immobilier est solide et cohérent avec votre demande d'emprunt. Cependant, certains aspects peuvent encore être améliorés pour maximiser vos chances d'obtenir le financement souhaité."
+              },
+              "high": {
+                "low": "Votre projet immobilier est bon, mais il manque des informations cruciales qui réduisent notre confiance dans l'évaluation. Fournir ces informations pourrait renforcer considérablement votre demande.\n\nNous vous recommandons de :\n1. Compléter les informations manquantes sur le projet.\n2. Assurer que toutes les données sont à jour et complètes.",
+                "mid": "Votre projet est bon, mais quelques informations semblent manquer. Cela pourrait limiter l'évaluation complète du bien.\n\nPour optimiser vos chances, nous vous conseillons de :\n1. Ajouter les détails manquants sur le bien.\n2. S'assurer que le montant du prêt demandé est réaliste par rapport à vos finances.\n3. Continuer à suivre de près votre projet pour garantir sa viabilité.",
+                "high": "Votre projet immobilier est solide et bien adapté à votre demande d'emprunt. Vous êtes dans une position favorable pour obtenir le financement nécessaire."
+              }
+            }
+        }
+    }
+}

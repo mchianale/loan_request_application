@@ -1,0 +1,66 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prêt Immobilier - Nouvelle demande</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="background-image"></div> <!-- Fullscreen blurred background -->
+    <div class="big_container">
+        <!-- Header section with logo and title -->
+        <div class="header">
+            <a href="/">
+                <img src="/static/home_logo.png" alt="Home Logo" class="home-logo">
+            </a>
+            <div class="header-text">
+                <h1>Prêt immobilier :</h1>
+                <p>faites la simulation !</p>
+            </div>
+        </div>
+
+        <!-- Login form -->
+        <div class="auth-section">
+            <div class="profile-icon">
+                <span>Nouvelle simulation de demande de prêt</span>
+            </div>
+
+            <form action="/new_request" method="POST" class="input-form">
+                <label for="request">Votre demande :</label>
+                <textarea id="request" name="request" rows="25" cols="120" required style="resize: vertical;">{{ input | e }}</textarea>
+                
+                <!-- Display error message if it exists -->
+                {% if error %}
+                <div class="error-message">{{ error }}</div>
+                {% endif %}
+                
+                <button type="submit" class="button confirm-button">Nouvelle Demande</button>
+                <div class="tooltip-content">
+                    Nous vous remercions de l'intérêt que vous portez à notre service de crédit immobilier. Afin de traiter votre demande dans les meilleures conditions, nous vous prions de bien vouloir remplir le formulaire ci-dessous avec le plus de précisions possibles.<br><br>
+                    <strong>Informations Personnelles</strong><br>
+                    Nom complet :<br>
+                    Adresse :<br>
+                    Numéro de téléphone :<br>
+                    Adresse électronique :<br><br>
+                    <strong>Informations Financières</strong><br>
+                    Revenu brut mensuel : (Veuillez indiquer le montant en euros)<br>
+                    Charges mensuelles : (Indiquez le montant total des charges, y compris les prêts en cours, les loyers, etc.)<br>
+                    Montant du prêt souhaité : (Indiquez le montant total que vous souhaitez emprunter)<br>
+                    Durée du prêt : (Précisez la durée en années pour le remboursement)<br>
+                    Avez-vous un apport personnel ? (Indiquez le montant que vous pouvez investir personnellement)<br><br>
+                    <strong>Projet Immobilier</strong><br>
+                    Type de propriété souhaitée : (Exemples : appartement, maison, terrain, etc.)<br>
+                    Adresse de la propriété : (Si vous avez déjà une propriété en vue)<br><br>
+                    <strong>Situation Professionnelle</strong><br>
+                    Statut professionnel : (Exemples : CDI, CDD, freelance, contrat d’apprentissage, etc.)<br>
+                    Secteur d'activité : (Indiquez le secteur dans lequel vous travaillez)<br><br>
+                    Nous vous encourageons à fournir autant de détails que possible afin que nous puissions mieux évaluer votre demande. Cela nous permettra de vous offrir les meilleures options de financement adaptées à votre situation.<br><br>
+                    Merci de votre collaboration !
+                </div>    
+            </form>  
+        </div>
+    </div>
+</body>
+</html>

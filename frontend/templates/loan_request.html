@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vos Demandes</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<script>
+    // Fetching the initial progress from the Flask template variable
+    let currentProgress_global_score = {{ request['global_score'] | round(0) | default(0) }};
+    let currentProgress_user_score = {{ request['user_score'] | round(0) | default(0) }};
+    let currentProgress_property_score = {{ request['property_score'] | default(0) }};
+
+
+    function updateProgress(value, progress_bar_id) {
+        const progressBar = document.getElementById(progress_bar_id); // Use id to get the progress bar
+        const percentageText = progressBar.querySelector('.percentage-text'); // Get the percentage text element
+        progressBar.style.setProperty('--progress-value', value);
+        percentageText.textContent = value + '%'; // Update the percentage text
+    }
+
+    function autoProgress(currentProgress, progress_bar_id) {
+        const targetProgress = currentProgress; // Set the target progress based on the passed value
+        let progress = 0; // Start from 0
+
+        const interval = setInterval(() => {
+            if (progress < targetProgress) {
+                progress += 1; // Increase progress by 1% every interval
+                updateProgress(progress, progress_bar_id); // Update the specific progress bar
+            } else {
+                clearInterval(interval); // Stop when the target is reached
+            }
+        }, 20); // Adjust the speed of the progress update here
+    }
+
+    // Start the progress automatically when the page loads
+    window.onload = () => {
+        // Check if the scores are valid before updating
+        if (currentProgress_global_score !== null) {
+            updateProgress(currentProgress_global_score, 'progressBar-global-score');  
+            autoProgress(currentProgress_global_score, 'progressBar-global-score');  
+        }
+
+        if (currentProgress_user_score !== null) {
+            updateProgress(currentProgress_user_score, 'progressBar-user-score');  
+            autoProgress(currentProgress_user_score, 'progressBar-user-score');  
+        }
+
+        if (currentProgress_property_score !== null) {
+            updateProgress(currentProgress_property_score, 'progressBar-property-score');  
+            autoProgress(currentProgress_property_score, 'progressBar-property-score'); 
+        }
+    };
+</script>
+
+
+
+<body>
+    <div class="background-image"></div> <!-- Fullscreen blurred background -->
+    <div class="big2_container_transparent">
+        <!-- button -->
+         <div class="empty_container">
+            <a href="/" class="button confirm-button">Accueil</a>
+            <form action="{{ url_for('delete_request', id=id) }}" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette demande ?');" class="button confirm-button">Supprimer</button>
+            </form>
+            <a href="/user_requests" class="button confirm-button">Voir les autres demandes</a>
+         </div>
+        <!-- Titre -->
+        <div class="title_r_container">
+            <div class="title_r_container-text">
+                <h1>Demande de prêt du {{ date }}</h1>
+            </div>
+        </div> 
+        <!-- Input --> 
+        <div class="input_r_container">
+            <p>{{ input_text }}</p>
+            <br><br>
+            {% if request['approve'] %}
+            <h2>Demande approuvée</h2>
+            <img src="/static/check-icon.png" alt="Approved" class="status-icon">
+            {% else %}
+                <h2>Demande refusée</h2>
+                <img src="/static/cross-icon.png" alt="Denied" class="status-icon">
+            {% endif %}
+        </div> 
+        <div class="empty_container"></div>
+        <!-- Profile & Loan info-->
+        <div class="title_r_container">
+            <div class="title_r_container-text">
+                <h1>Informations de la Demande, profil et projet</h1>
+            </div>
+        </div> 
+        <div class="input2_r_container">
+            <!-- Profile -->
+            <div class="box_r">
+                <p>
+                    <strong>Nom :</strong> 
+                    {% if request['user_name'] %}
+                        {{ request['user_name'] }}
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Mail :</strong> 
+                    {% if request['user_mail'] %}
+                        {{ request['user_mail'] }}
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Numéro de téléphone :</strong> 
+                    {% if request['user_num'] %}
+                        {{ request['user_num'] }}
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Adresse :</strong> 
+                    {% if request['user_address'] %}
+                        {{ request['user_address'] }}
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Situation professionnelle :</strong> 
+                    {% if request['user_situation'] %}
+                        {{ request['user_situation'] }}
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Revenu mensuel :</strong> 
+                    {% if request['revenu_mensuel'] %}
+                        {{ request['revenu_mensuel'] }} €
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Charge mensuelle :</strong> 
+                    {% if request['depense_mensuel'] %}
+                        {{ request['depense_mensuel'] }} €
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>     
+            </div>
+            <div class="separator_r"></div>
+            <!-- Propriete -->
+            <div class="box_r">
+                <p>
+                    <strong>Montant demandé :</strong> 
+                    {% if request['montant_pret'] %}
+                        {{ request['montant_pret'] }} €
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Apport personnel :</strong> 
+                    {% if request['apport'] %}
+                        {{ request['apport'] }} €
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Durée du prêt :</strong> 
+                    {% if request['duree_pret'] %}
+                        {% if request['duree_pret'] > 1 %}
+                            {{ request['duree_pret'] | round(0, 'common') }} ans
+                        {% else %}
+                            {{ request['duree_pret'] | round(0, 'common') }} an
+                        {% endif %}
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Emplacement de la propriété :</strong> 
+                    {% if request['logement_address'] %}
+                        {{ request['logement_address'] }}
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Type de la propriété :</strong> 
+                    {% if request['type_logement'] %}
+                        {{ request['type_logement'] }}
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Potentielle mensualité à payer :</strong> 
+                    {% if request['monthly_pay'] %}
+                        {{ request['monthly_pay'] | round(2, 'common') }} €
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Taux annuel moyen </strong> 
+                    {% if request['region_rate'] == 'National'%}
+                        <strong>à l'échelle nationale :</strong>
+                    {% else %}
+                        <strong>dans la région, {{request['region_rate'] }} :</strong>
+                    {% endif %}
+                    {% if request['yearly_rate'] %}
+                        {{ request['yearly_rate'] | round(2, 'common') }} %
+                    {% else %}
+                        donnée manquante
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <div class="empty_container"></div>
+        <!-- Resultat -->
+        <div class="title_r_container">
+            <div class="title_r_container-text">
+                <h1>Score global de la demande, et décision</h1>
+            </div>
+        </div> 
+        <div class="input2_r_container">
+            <div class="box_r">
+                <div class="box_r_without">
+                    <div id="progressBar-global-score" class="progress-bar score" style="--progress-value: 100;">
+                        <span class="percentage-text">0%</span>
+                        <span class="score-text"><br><br>Score global</span>                  
+                    </div>              
+                </div>
+                <br>
+                <div class="box_r">
+                    <p>
+                        Le score global a été calculé avec une confiance de <strong>{{request['confidence'] | round(2, 'common')}} %</strong>.
+                        <span class="info-icon" data-tooltip="Ce pourcentage reflète le niveau de confiance associé au calcul du score global de votre demande de prêt. Il dépend du nombre et de la précision des informations fournies, ainsi que de nos systèmes d'évaluation. Un score faible indique que votre demande manque de certains détails essentiels, rendant l'évaluation moins précise.">
+                            ?
+                        </span>                        
+                    </p>
+                </div>
+            </div>
+            <div class="separator_r"></div>
+            <div class="box_r">
+                <p>
+                    {{ request['message_approve'] | replace("\n", "<br>") | safe }}
+                </p>
+            </div>
+        </div>
+        <div class="empty_container"></div>
+        <div class="input2_r_container">
+            <!-- user score -->
+            <div class="box_r">
+                {% if request['weight_user_score'] > 0%}
+                    <div class="box_r_without">
+                        <div id="progressBar-user-score" class="progress-bar score" style="--progress-value: 100;">
+                            <span class="percentage-text">0%</span>
+                            <span class="score-text"><br><br>Score de profil</span>                  
+                        </div>              
+                    </div>
+                    <br>
+                    <div class="box_r">
+                        <p>
+                            <strong>Taux d'endettement : </strong>{{request['debt_ratio'] | round(2, 'common')}} %.
+                            <span class="info-icon" data-tooltip="Le taux d'endettement est un indicateur clé pour évaluer votre capacité à gérer vos dettes. Un taux d'endettement supérieur à 45 % peut poser des problèmes. Cela signifie qu'une part trop importante de vos revenus est consacrée au remboursement de vos dettes, ce qui peut rendre difficile la gestion de nouvelles obligations financières. Pour maintenir une bonne santé financière, il est essentiel de garder ce taux en dessous de ce seuil.">
+                                ?
+                            </span>                        
+                        </p>
+                        <p>
+                            <strong>Score de situation: </strong>{{request['user_situation_score'] | round(2, 'common')}} %.
+                            <span class="info-icon" data-tooltip="Le score de situation professionnelle est un indicateur qui évalue la stabilité et la sécurité financière d'un individu en fonction de son secteur d'activité et du type de contrat de travail. Ce score se traduit par un pourcentage, permettant d'évaluer la solidité de la situation professionnelle d'une personne.">
+                                ?
+                            </span>                        
+                        </p>
+                    </div>
+                {% else %}
+                    <img src="/static/cross-icon.png" alt="Denied" class="status-icon">
+                    <h2>Les informations nécessaires pour calculer le score de votre profil sont indisponibles</h2>
+                {% endif %}
+            </div>
+            <div class="separator_r"></div>
+            <!-- Property score -->
+            <div class="box_r">
+                {% if request['weight_property_score'] > 0%}
+                    <div class="box_r_without">
+                        <div id="progressBar-property-score" class="progress-bar score" style="--progress-value: 100;">
+                            <span class="percentage-text">0%</span>
+                            <span class="score-text"><br><br>Score de projet</span>                  
+                        </div>              
+                    </div>
+                    <br>
+                    <div class="box_r">
+                        <p>
+                            <strong>Score de rendement locatif : </strong>{{request['rental_yield_score'] | round(2, 'common')}} %.
+                            <span class="info-icon" data-tooltip="Le score de rendement locatif est un indicateur important qui évalue la rentabilité d'un investissement immobilier locatif. Il reflète le potentiel de revenu généré par un bien par rapport à son coût d'acquisition. Un score élevé indique que le bien génère des revenus significatifs par rapport à son prix d'achat, ce qui peut être un bon signe pour les investisseurs. Un bon score de rendement locatif vous aide à prendre des décisions éclairées sur vos investissements immobiliers et à maximiser votre retour sur investissement. Il est essentiel de l'analyser attentivement, car un score bas peut indiquer des problèmes potentiels de rentabilité ou de demande locative.">
+                                ?
+                            </span>                        
+                        </p>
+                        <p>
+                            <strong>Score de flux de trésorerie mensuel : </strong>{{request['monthly_cash_flow_score'] | round(2, 'common')}} %.
+                            <span class="info-icon" data-tooltip="Le score de flux de trésorerie mensuel est un indicateur clé qui évalue la santé financière d'un investissement ou d'une entreprise en fonction de son flux de trésorerie net. Il est calculé en fonction du montant du cash flow par mois, et permet de déterminer la viabilité financière d'un projet. Un score élevé indique que l'entité génère des liquidités suffisantes pour couvrir ses dépenses et ses investissements, ce qui est un signe positif pour la gestion financière. Par exemple, un cash flow de 3 000 € ou plus se traduit par un score de 100, indiquant une excellente santé financière. Un score de 80 ou 60 suggère un bon ou un niveau moyen de rentabilité, tandis qu'un score de 40 montre un flux de trésorerie faible mais positif. À l'inverse, un score de 20 ou moins indique des problèmes financiers, avec des flux de trésorerie négatifs qui peuvent poser des défis importants. Comprendre ce score vous aide à évaluer la performance de votre investissement et à prendre des décisions éclairées pour optimiser votre gestion financière.">
+                                ?
+                            </span>                        
+                        </p>
+                    </div>
+                {% else %}
+                    <img src="/static/cross-icon.png" alt="Denied" class="status-icon">
+                    <h2>Les informations nécessaires pour calculer le score de votre projet sont indisponibles</h2>
+                {% endif %}
+            </div>
+        </div>
+         <!-- Resultat plus de details-->
+
+    </div>
+</body>
+</html>

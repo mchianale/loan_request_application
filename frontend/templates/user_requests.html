@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vos Demandes</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="background-image"></div> <!-- Fullscreen blurred background -->
+    <div class="big2_container">
+        <div class="header">
+            <a href="/">
+                <img src="/static/home_logo.png" alt="Home Logo" class="home-logo">
+            </a>
+            <div class="header-text">
+                <h1>Vos Demandes de Prêt</h1>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <!-- Header Row -->
+            <div class="table-header">
+                <div class="table-cell header-cell">Résultat</div>
+                <div class="table-cell header-cell">Demande</div>
+                <div class="table-cell header-cell">Actions</div>
+            </div>
+
+            <!-- Requests Rows -->
+            {% for request in loan_requests %}
+            <div class="table-row">
+                <div class="table-cell">
+                    {% if request['approvalDecisionInformation']['approve'] %}
+                        <img src="/static/check-icon.png" alt="Approved" class="status-icon">
+                    {% else %}
+                        <img src="/static/cross-icon.png" alt="Denied" class="status-icon">
+                    {% endif %}
+                </div>
+                <div class="table-cell request-info">
+                    <p>{{ request['date'] }}:</p>
+                    <p>{{ request['request'][:100] }}{% if request['request']|length > 100 %}...{% endif %}</p>
+                </div>
+                <div class="table-cell actions">
+                    <form action="{{ url_for('see_request', id=request['_id']) }}" method="post" style="display:inline;">
+                        <button type="submit" class="button view-button">Voir</button>
+                    </form>
+                    <form action="{{ url_for('delete_request', id=request['_id']) }}" method="post" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette demande ?');" class="button view-button">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Pagination Controls -->
+            <div class="pagination">
+                {% if page > 1 %}
+                    <a href="{{ url_for('user_requests', page=page-1) }}" class="pagination-link">←</a>
+                {% endif %}
+                <span>Page {{ page }} / {{ total_pages }}</span>
+                {% if page < total_pages %}
+                    <a href="{{ url_for('user_requests', page=page+1) }}" class="pagination-link">→</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

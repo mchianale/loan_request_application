@@ -1,0 +1,48 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prêt Immobilier - Login</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="background-image"></div> <!-- Fullscreen blurred background -->
+    <div class="container">
+        <!-- Header section with logo and title -->
+        <div class="header">
+            <a href="/">
+                <img src="/static/home_logo.png" alt="Home Logo" class="home-logo">
+            </a>
+            <div class="header-text">
+                <h1>Prêt immobilier :</h1>
+                <p>faites la simulation !</p>
+            </div>
+        </div>
+
+        <!-- Login form -->
+        <div class="auth-section">
+            <div class="profile-icon">
+                <img src="/static/profile_icon.png" alt="Profile Icon" class="profile-image">
+                <span>connexion</span>
+            </div>
+
+            <form action="/login" method="POST" class="input-form">
+                <label for="username">nom d'utilisateur :</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">mot de passe :</label>
+                <input type="password" id="password" name="password" required>
+                
+                <!-- Display error message if it exists -->
+                {% if error %}
+                <div class="error-message">{{ error }}</div>
+                {% endif %}
+                
+                <button type="submit" class="button confirm-button">Se connecter</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

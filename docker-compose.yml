@@ -1,0 +1,56 @@
+version: '3.8'
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db  # Persist MongoDB data
+    networks:
+      - app-network
+
+  backend_service:
+    container_name: backend_service
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "5001:5001"   
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+  loan_service:
+    container_name: loan_service
+    build:
+        context: .
+        dockerfile: Dockerfile.services
+    ports:
+        - "8001:8001"
+        - "8002:8002"
+        - "8003:8003"
+        - "8004:8004"
+    depends_on:
+        - backend_service
+    networks:
+        - app-network
+
+  flask_frontend:
+    container_name: flask_frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "5002:5002"  
+    depends_on:
+      - backend_service
+      - loan_service
+    networks:
+      - app-network
+

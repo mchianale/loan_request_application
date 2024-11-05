@@ -1,0 +1,29 @@
+# Web framework and API handling
+Flask 
+requests 
+beautifulsoup4 
+spyne 
+suds-py3 
+twisted 
+lxml
+
+# MongoDB client
+pymongo
+
+
+# Geolocation
+geopy 
+
+# Data Processing
+pandas 
+
+# Regular Expressions
+regex 
+
+# NLP and Machine Learning
+torch 
+transformers 
+sentencepiece
+
+
+
