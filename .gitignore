@@ -1,7 +1,7 @@
 cmd.txt
 Datascale-TD1.pdf
 sample.json
-data
+/data
 backend/__pycache__
 frontend/__pycache__
 services/__pycache__

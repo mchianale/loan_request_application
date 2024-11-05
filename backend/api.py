@@ -28,21 +28,19 @@ db_loan_pendings = db[config["db"]["loan_pendings"]]
 db_loan_requests = db[config["db"]["loan_requests"]]
 db_users = db[config["db"]["users"]]
 
-# Clear collections (optional, you may want to remove this in production)
-"""db_loan_pendings.delete_many({})
-db_loan_requests.delete_many({})
-db_users.delete_many({})"""
+# Clear pendings collections 
+db_loan_pendings.delete_many({})
 
+# end point test
+@app.route('/api/test', methods=['GET'])
+def get_test():
+    return jsonify({"message" : "ok"}), 200
 # for pendings
 @app.route('/api/pending/all_pendings', methods=['GET'])
 def all_pendings():
     loan_pendings = list(db_loan_pendings.find({"status": "Pending"}))
     return jsonify({'loan_pendings' : loan_pendings})
 
-@app.route('/api/pending/all_pendings_all', methods=['GET'])
-def all_pendings_all():
-    loan_pendings = list(db_loan_pendings.find({}))
-    return jsonify({'loan_pendings' : loan_pendings})
 
 @app.route('/api/pending/update_status', methods=['POST'])
 def update_status():

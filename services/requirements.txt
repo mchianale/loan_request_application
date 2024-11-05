@@ -7,10 +7,6 @@ suds-py3
 twisted 
 lxml
 
-# MongoDB client
-pymongo
-
-
 # Geolocation
 geopy 
 

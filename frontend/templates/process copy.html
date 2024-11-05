@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,23 +7,22 @@
     <link rel="stylesheet" href="/static/styles.css"> <!-- Link to CSS -->
     <script>
         const maxSteps = 3; // Maximum steps in the process
-        let retryTimeout; // Variable to store the retry timeout
-        let countdownTime = 20; // Countdown time in seconds
 
         function updateProcessStep() {
             fetch(`/get_process_step`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     // Check if we need to redirect
+                    console.log(data)
                     if (data.redirect) {
                         if (data.redirect === 'see_request' && data.pending_id) {
                             // Redirect to the see_request route with the pending ID
                             window.location.href = `/see_request/${data.pending_id}`;
                         } else {
+                            // Handle any other redirects if necessary
                             window.location.href = '/'; // Default redirect
                         }
-                        return;
+                        return; // Stop execution if redirecting
                     }
                     
                     // Check for an error message in the response
@@ -33,8 +30,7 @@
                         // Display the error message and the retry button
                         document.getElementById('error-message').textContent = data.message_error;
                         document.getElementById('error-popup').style.display = 'block';
-                        startCountdown(); // Start the countdown timer
-                        return;
+                        return; // Stop further updates if there is an error
                     }
 
                     // Update progress display
@@ -47,53 +43,25 @@
 
         // Call updateProcessStep every 0.5 seconds
         setInterval(updateProcessStep, 500);
-
-        // Start countdown for retry
-        function startCountdown() {
-            const countdownDisplay = document.getElementById('countdown-timer');
-            countdownDisplay.textContent = `Réessayer dans ${countdownTime} secondes...`;
-
-            retryTimeout = setInterval(() => {
-                countdownTime--;
-                countdownDisplay.textContent = `Réessayer dans ${countdownTime} secondes...`;
-
-                if (countdownTime <= 0) {
-                    clearInterval(retryTimeout);
-                    retry(); // Automatically retry when countdown reaches zero
-                }
-            }, 1000);
-        }
-
-        // Retry function to handle the retry action
-        function retry() {
-            clearInterval(retryTimeout); // Clear the countdown interval
-            window.location.href = '/retry'; // Redirect to retry
-        }
-
-        // Function to clear the retry timeout if the button is clicked
-        function handleRetryClick() {
-            clearInterval(retryTimeout); // Prevent the automatic retry
-            retry(); // Retry immediately on button click
-        }
     </script>
 </head>
 <body>
     <div class="background-image"></div> <!-- Fullscreen blurred background -->
     <div class="process-container">
         <div class="loading-circle">
-            <span id="progress-text">1/3</span>
+            <span id="progress-text">1/3</span> <!-- Corrected ID -->
         </div>
         <div class="loading-text">
-            <h2 id="process-title">Chargement de la demande</h2>
-            <p id="process-description">Évaluation textuelle de votre demande...</p>
+            <h2 id="process-title">Chargement de la demande</h2> <!-- Corrected ID -->
+            <p id="process-description">Évaluation textuelle de votre demande...</p> <!-- Corrected ID -->
         </div>
     </div>
     <!-- Error Popup -->
     <div id="error-popup" class="error-popup" style="display: none;">
-        <h2>Oups, il semblerait qu'il y ait eu une erreur :</h2>
+        <h2>Oups, il semblerait qu'il y est eu une erreur :</h2>
         <p id="error-message"></p>
-        <div id="countdown-timer"></div> <!-- Countdown timer display -->
-        <button onclick="handleRetryClick()" class="button confirm-button">Ressayer</button>
+        <a href="/retry" class="button confirm-button">Ressayer</a>
     </div>
 </body>
 </html>
+

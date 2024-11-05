@@ -1,6 +1,8 @@
 from flask import Flask, render_template,request, jsonify,  redirect, url_for
 import json
 import requests
+import time  
+
 CONFIG_PATH = 'config.json'
 # Initialize UserService with the configuration
 config = json.load(open(CONFIG_PATH))
@@ -80,7 +82,6 @@ def signup():
         # register
          
         url = url_root + 'user/signup'
-        print('url', url)
         payload = {
             "user_id": username,
             "password": password,
@@ -89,7 +90,7 @@ def signup():
 
         # Make the POST request
         response = requests.post(url, json=payload)
-        print('response', response)
+    
         if response.status_code == 201:
             session['user_id'] = username  # Enregistre le nom d'utilisateur
             # get session['session_id']
@@ -173,8 +174,9 @@ def get_process_step():
         session['current_request_step'] = response.json()['step']
         # If process is complete, reset the step and provide a redirect
         if session['current_request_step'] == 4:
+            temp_pending_id = session['pending_id']
             session['current_request_step'], session['pending_id'] = None, None
-            return jsonify({'redirect': 'see_request', 'pending_id': session['pending_id']})
+            return jsonify({'redirect': 'see_request', 'pending_id': temp_pending_id})
 
         # If ongoing, return JSON response with the current step data
         return jsonify({
@@ -274,5 +276,16 @@ def see_request(id):
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
+    
+    url = url_root + '/test'
+    while True:
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                break 
+            time.sleep(1)
+        except:
+            time.sleep(1)
+ 
     port = config['flask_frontend']['port']
     app.run(host='0.0.0.0', port=port)
