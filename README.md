@@ -79,7 +79,7 @@ By using SOAP, the Loan Service can communicate with other applications in a sec
     },
     "camembert_model" : {
         "model_path" : "models/3_camembert-base",
-        "max_length" : 500,
+        "max_length" : 512,
         "improvement" : "finish"
     }
 }
