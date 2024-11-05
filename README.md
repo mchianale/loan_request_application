@@ -38,6 +38,54 @@ By using SOAP, the Loan Service can communicate with other applications in a sec
 --- 
 
 ## Reuse
+### Config for all
+**[config.json](https://github.com/mchianale/loan_request_application/blob/main/config.json) :**
+```json
+{
+    "tns_name" : "spyne.loan.application.service",
+    "db" : {
+      "name" : "loan_service_db",
+      "loan_pendings" : "loan_pendings",
+      "loan_requests" : "loan_requests",
+      "users" : "users"
+    },
+    "backend_service" : {
+      "port" : 5001
+    },
+    "flask_frontend" : {
+      "port" : 5002
+    },
+    "services" : {
+        "ServiceExtraction" : {
+            "port" : 8001,
+            "description" : "Extract entities from requests using finetuned transformers model and clean output using nlp rules.",
+            "improvement" : "finish"
+        },
+        "CreditCheckService" : {
+            "port" : 8002,
+            "description" : "The Credit Check service is responsible for assessing the financial capacity of the customer to repay the loan.",
+            "improvement" : "finish"
+        },
+        "PropertyValuationService" : {
+            "port" : 8003,
+            "description" : "The Property Valuation department is responsible for estimating the market value of the property for which the loan is requested",
+            "improvement" : "finish"
+        },
+        "ApprovalDecisionService" : {
+            "port" : 8004,
+            "description" : "The Approval Decision service analyzes the data collected during the stages (Credit Check and Property Valuation) to determine if the home loan can be approved",
+            "improvement" : "to make"
+        }
+    },
+    "camembert_model" : {
+        "model_path" : "models/3_camembert-base",
+        "max_length" : 500,
+        "improvement" : "finish"
+    }
+}
+```
+See the file directly for more details, there are also rules for composite service decision prices.
+
 ### To edit
 **Install the dependencies :**
 ```bash
