@@ -165,6 +165,11 @@ services:
 ```
 
 ## Improvements
+1. **Isolation issues with the database and Frontend and Loan Services**: It is necessary to enhance communication between the MongoDB database and the Frontend and Loan services to ensure better data isolation and security while optimizing access performance.
+
+2. **Optimization of the various Dockerfiles for faster containerization**: A review of the Dockerfiles is recommended to reduce build time and improve the efficiency of containerization. This could include removing unnecessary dependencies and utilizing caching when installing packages.
+
+
 ## Citation
 
 ---
