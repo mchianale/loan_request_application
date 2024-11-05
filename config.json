@@ -1,6 +1,5 @@
 {
     "tns_name" : "spyne.loan.application.service",
-    "timer" : 1,
     "db" : {
       "name" : "loan_service_db",
       "loan_pendings" : "loan_pendings",
