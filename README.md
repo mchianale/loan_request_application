@@ -7,9 +7,11 @@ This project is a containerized application designed to manage new loan applicat
 - [Demo](#demo)
 - [Introduction](#introduction)
 - [Reuse](#reuse)
+  - [Config for all](#config-for-all)
   - [To edit](#to-edit)
   - [Using Docker](#using-docker)
 - [Improvements](#improvements)
+- [Citation](#citation)
   
 ## Demo
 ## Introduction 
