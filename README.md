@@ -1,12 +1,21 @@
 # Real estate loan application Service
 This project is a containerized application designed to manage new loan applications, automatically evaluating each request based on multiple integrated services. The application leverages Docker to streamline service deployment and orchestration, ensuring a modular, scalable setup.
 
-**demo here**
+---
 
+## Table of Contents
+- [Demo](#demo)
+- [Introduction](#introduction)
+- [Reuse](#reuse)
+  - [To edit](#to-edit)
+  - [Using Docker](#using-docker)
+- [Improvements](#improvements)
+  
+## Demo
 ## Introduction 
 ![global_sch](https://github.com/mchianale/loan_request_application/blob/main/docs/global_sch.png)
 
-The system comprises four main services, all interconnected within a Docker bridge network (`app-network`) for secure, isolated communication:
+**The system comprises four main services, all interconnected within a Docker bridge network (`app-network`) for secure, isolated communication:**
 
 --- 
 
@@ -105,6 +114,7 @@ services:
       - app-network
 ```
 
+## Improvements
 
 https://github.com/cquest/dvf_as_api?tab=readme-ov-file => api dvf
 https://www.data.gouv.fr/fr/datasets/regions-departements-villes-et-villages-de-france-et-doutre-mer/ => data cities
