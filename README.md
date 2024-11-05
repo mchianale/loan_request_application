@@ -1,3 +1,8 @@
+```bash
+pip install -r requirements.txt
+````
+
+
 https://github.com/cquest/dvf_as_api?tab=readme-ov-file => api dvf
 https://www.data.gouv.fr/fr/datasets/regions-departements-villes-et-villages-de-france-et-doutre-mer/ => data cities
 https://www.empruntis.com/financement/actualites/barometres_regionaux.php => rate
