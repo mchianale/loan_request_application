@@ -121,3 +121,13 @@ https://www.data.gouv.fr/fr/datasets/regions-departements-villes-et-villages-de-
 https://www.empruntis.com/financement/actualites/barometres_regionaux.php => rate
 code insee => https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/
 loyer m2 => https://www.seloger.com/prix-de-l-immo/location/ile-de-france/paris/paris-20eme/750120.htm
+
+## Citation
+```bibtex
+@inproceedings{martin2020camembert,
+  title={CamemBERT: a Tasty French Language Model},
+  author={Martin, Louis and Muller, Benjamin and Su{\'a}rez, Pedro Javier Ortiz and Dupont, Yoann and Romary, Laurent and de la Clergerie, {\'E}ric Villemonte and Seddah, Djam{\'e} and Sagot, Beno{\^\i}t},
+  booktitle={Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics},
+  year={2020}
+}
+
