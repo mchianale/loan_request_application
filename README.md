@@ -4,7 +4,7 @@ This project is a containerized application designed to manage new loan applicat
 **demo here**
 
 ## Introduction 
-![global_sch](/docs/gloabl_sch.png)
+![global_sch](docs/gloabl_sch.png)
 
 The system comprises four main services, all interconnected within a Docker bridge network (`app-network`) for secure, isolated communication:
 
