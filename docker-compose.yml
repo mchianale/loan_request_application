@@ -1,18 +1,20 @@
 version: '3.8'
+
 networks:
-  app-network:
+  public:
     driver: bridge
+  internal:
+    driver: bridge
+    internal: true   
 
 services:
   mongodb:
     container_name: mongodb
     image: mongo:latest
-    ports:
-      - "27017:27017"
     volumes:
-      - ./data:/data/db  # Persist MongoDB data
+      - ./data:/data/db    
     networks:
-      - app-network
+      - internal   
 
   backend_service:
     container_name: backend_service
@@ -24,7 +26,8 @@ services:
     depends_on:
       - mongodb
     networks:
-      - app-network
+      - internal   
+      - public     
 
   loan_service:
     container_name: loan_service
@@ -39,7 +42,7 @@ services:
     depends_on:
         - backend_service
     networks:
-        - app-network
+      - public   
 
   flask_frontend:
     container_name: flask_frontend
@@ -52,5 +55,4 @@ services:
       - backend_service
       - loan_service
     networks:
-      - app-network
-
+      - public   

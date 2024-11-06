@@ -3,7 +3,9 @@ import json
 import requests
 import time  
 import html 
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
 CONFIG_PATH = 'config.json'
 # Initialize UserService with the configuration
 config = json.load(open(CONFIG_PATH))
@@ -277,16 +279,16 @@ def see_request(id):
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
-    
     url = url_root + '/test'
     while True:
+        logging.info('wait for backend...')
         try:
             response = requests.get(url)
             if response.status_code == 200:
                 break 
-            time.sleep(1)
+            time.sleep(10)
         except:
-            time.sleep(1)
- 
+            time.sleep(10)
+    
     port = config['flask_frontend']['port']
     app.run(host='0.0.0.0', port=port)

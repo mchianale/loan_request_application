@@ -33,7 +33,7 @@ This project is a containerized application designed to manage new loan applicat
 --- 
 
 3.  **[Loan Service](https://github.com/mchianale/loan_request_application/blob/main/services/README.md)**:
-     - This service is responsible for running loan evaluation processes, determining eligibility and assessing risk based on predefined business rules and application data.
+     - This service is responsible for executing loan evaluation processes. It determines applicant eligibility and assesses risk based on predefined business rules and provided application data. Triggered by a watchdog system, the service analyzes input text to evaluate loan applications and make approval or rejection decisions.
      - The service is built with [Spyne](https://spyne.io/), a Python framework for creating SOAP-based web services.
      - Using SOAP (Simple Object Access Protocol), the Loan Service enables structured and reliable messaging that follows a well-defined XML schema. This approach ensures data integrity and supports complex operations between the Loan Service and other parts of the application, like the Backend Service.
      - The Loan Service operates on multiple ports, facilitating concurrent evaluation workflows and ensuring that multiple requests can be processed simultaneously.
@@ -102,7 +102,7 @@ pip install -r backend/requirements.txt
 pip install -r services/requirements.txt
 pip install -r frontend/requirements.txt
 ```
-**Warning:** For all dependent applications that call other services, ensure that the host is set to `localhost`. Currently, the hosts are configured using container names, as each service container is on the same Docker network.
+**Warning:** For all dependent applications that call other services, ensure that the host is set to `localhost`. Currently, the hosts are configured using container names, as each service container is on the same Docker network expect for `mongodb`, which is isolate based on docker-compose netwokds implementation.
 
 ### Using Docker
 **Containerization :**
@@ -115,20 +115,22 @@ docker-compose up --build
 **More details :**
 ```yml
 version: '3.8'
+
 networks:
-  app-network:
+  public:
     driver: bridge
+  internal:
+    driver: bridge
+    internal: true  # isolation
 
 services:
   mongodb:
     container_name: mongodb
     image: mongo:latest
-    ports:
-      - "27017:27017"
     volumes:
-      - ./data:/data/db  # Persist MongoDB data
+      - ./data:/data/db    
     networks:
-      - app-network
+      - internal # isolated from all except from backend
 
   backend_service:
     container_name: backend_service
@@ -140,7 +142,8 @@ services:
     depends_on:
       - mongodb
     networks:
-      - app-network
+      - internal   
+      - public     
 
   loan_service:
     container_name: loan_service
@@ -155,7 +158,7 @@ services:
     depends_on:
         - backend_service
     networks:
-        - app-network
+      - public   
 
   flask_frontend:
     container_name: flask_frontend
@@ -168,13 +171,11 @@ services:
       - backend_service
       - loan_service
     networks:
-      - app-network
+      - public   
 ```
 
 ## Improvements
-1. **Isolation issues with the database and Frontend and Loan Services**: It is necessary to enhance communication between the MongoDB database and the Frontend and Loan services to ensure better data isolation and security while optimizing access performance.
-
-2. **Optimization of the various Dockerfiles for faster containerization**: A review of the Dockerfiles is recommended to reduce build time and improve the efficiency of containerization. This could include removing unnecessary dependencies and utilizing caching when installing packages.
+1. **Optimization of the various Dockerfiles for faster containerization**: A review of the Dockerfiles is recommended to reduce build time and improve the efficiency of containerization. This could include removing unnecessary dependencies and utilizing caching when installing packages.
 
 
 ## Citation

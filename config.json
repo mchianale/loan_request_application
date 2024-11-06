@@ -45,8 +45,8 @@
             "user_situation_score_weight" : 0.2
         },
         "property_score" : {
-            "rental_yield_score_weight" : 0.7,
-            "monthly_cash_flow_score_weight" : 0.3
+            "rental_yield_score_weight" : 0.5,
+            "monthly_cash_flow_score_weight" : 0.5
         },
         "global_score" : {
             "user_score_weight" : 0.6,

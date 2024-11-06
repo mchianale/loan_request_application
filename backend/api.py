@@ -6,7 +6,9 @@ import json
 import re
 import time
 from datetime import datetime
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
 CONFIG_PATH = 'config.json'
 
 # Load configuration
@@ -16,14 +18,15 @@ config = json.load(open(CONFIG_PATH, encoding='utf-8'))
 app = Flask(__name__)
 # wait for db mongo load and connect
 while True:
+    logging.info('wait for mongodb...')
     try:
         client = MongoClient('mongodb', 27017)
+        db = client[config["db"]["name"]]
         break
     except:
-        time.sleep(5)
+        time.sleep(20)
 
 # Get db & collections
-db = client[config["db"]["name"]]
 db_loan_pendings = db[config["db"]["loan_pendings"]]
 db_loan_requests = db[config["db"]["loan_requests"]]
 db_users = db[config["db"]["users"]]
