@@ -56,10 +56,10 @@ This project is a containerized application designed to manage new loan applicat
   Implement logic in the frontend to block certain components for malicious or unauthorized users. This prevents access to sensitive features based on the user's role or authentication status.
 
 - **Managing User Sessions**:  
-  Create a sign-in and login system in the backend that generates a `session_id` for each user. User passwords should be hashed and salted to increase security and prevent unauthorized access.
+  Create a sign-in and login system in the backend that generates a `session_id` for each user. User passwords are hashed and salted to increase security and prevent unauthorized access.
 
 - **Prevent Multiple Requests from the Same User**:  
-  To avoid multiple requests from the same user simultaneously, implement a management system that handles session states and limits duplicate submissions. This can be achieved through both backend and frontend logic.
+  To avoid multiple requests from the same user simultaneously, implement a management system that handles session states and limits duplicate submissions. This  is achieved through both backend and frontend logic.
 
 ---
 
