@@ -175,7 +175,7 @@ services:
 ```
 
 ## Improvements
-1. **Optimization of the various Dockerfiles for faster containerization**: A review of the Dockerfiles is recommended to reduce build time and improve the efficiency of containerization. This could include removing unnecessary dependencies and utilizing caching when installing packages.
+- **Optimization of the various Dockerfiles for faster containerization**: A review of the Dockerfiles is recommended to reduce build time and improve the efficiency of containerization. This could include removing unnecessary dependencies and utilizing caching when installing packages.
 
 
 ## Citation
