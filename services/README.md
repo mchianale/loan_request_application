@@ -40,20 +40,24 @@ ServiceExtraction takes in input an unclean text and extracts variables useful t
 - Based on other rules, it returns an `error` and stops the process if important variables for loan evaluation are missing in the final entities.
 
 ## CreditCheckService:
-The Credit Check service is responsible for assessing the financial capacity of the customer to repay the loan.
-Based on usefull entities to evaluate profile, this service find the debt ratio of the user.
 
-**Debt ration :**
+The Credit Check service is responsible for assessing the financial capacity of the customer to repay the loan. Based on useful entities to evaluate the profile, this service calculates the debt ratio of the user.
+
+### Debt Ratio:
 
 The debt ratio is used to evaluate the borrower's ability to repay a loan based on their monthly income and financial obligations.
-- **Debt ratio** = (**Monthly Payments**+**Monthly Charges**)/**Monthly Income** in %
-- **Monthly Payments**: This is the monthly debt payments due to the potential loan application.
+
+- **Debt Ratio** = (**Monthly Payments** + **Monthly Charges**) / **Monthly Income** in %
+
+- **Monthly Payments**: This is the monthly debt payment due to the potential loan application.
 - **Monthly Charges**: These are additional regular financial obligations, such as rent, utilities, or any other recurring charges.
 - **Monthly Income**: This is the gross monthly income before taxes and other deductions.
+
 The resulting ratio is typically expressed as a percentage. A lower ratio indicates a healthier financial situation, while a higher ratio may signal financial strain.
 
+### How it works:
 
-**How it works:**:
-- We are supposed toà know **Monthly Charges** and **Monthly Income** based on previous service, but CreditCheckService need to compute **Monthly Payments** based on yearly rate of the future property region (by request [baroemtre regionaux]("https://www.empruntis.com/financement/actualites/barometres_regionaux.php) which are udpated everyday. 
+We are supposed to know **Monthly Charges** and **Monthly Income** based on the previous service, but the **CreditCheckService** needs to compute **Monthly Payments** based on the requested loan amount, the loan term, and the annual interest rate of the future property region (using data from the regional [barometer](https://www.empruntis.com/financement/actualites/barometres_regionaux.php) which is updated daily).
+
 
   
