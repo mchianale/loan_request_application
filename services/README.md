@@ -53,7 +53,7 @@ The Approval Decision service analyzes the data collected during the stages (Cre
 - **CreditCheckService** and **PropertyValuationService** are executed using `threads`, which helps to save time during the loan evaluation process.
 
 **Cities Data:**  
-- I have created a dataset [cities.csv](https://github.com/mchianale/loan_request_application/blob/main/services/features/data/cities.csv) to enable the computation of the **CreditCheckService** and **PropertyValuationService** scoring systems.
+- I have created a dataset [cities.csv](https://github.com/mchianale/loan_request_application/blob/main/services/features/data/cities.csv) based on several datasets from [french cities informations, on data.gouv](https://www.data.gouv.fr/fr/datasets), to enable the computation of the **CreditCheckService** and **PropertyValuationService** scoring systems.
 
 ---
 
