@@ -1,7 +1,21 @@
 # Evaluation Service of real estate loan application
+## Table of Contents
+1. [Overview](#overview)
+   - [Global Structure](#global-structure)
+2. [Service Composite Structure](#service-composite-structure)
+   - [ServiceExtraction](#serviceextraction)
+   - [CreditCheckService](#creditcheckservice)
+   - [PropertyValuationService](#propertyvaluationservice)
+   - [ApprovalDecisionService](#approvaldecisionservice)
+3. [Good to know](#good-to-know)
+4. [ServiceExtraction](#serviceextraction-1)
+5. [CreditCheckService](#creditcheckservice-1)
+6. [PropertyValuationService](#propertyvaluationservice-1)
+7. [ApprovalDecisionService](#approvaldecisionservice-1)
 
 ## Overview 
 This service is the main component that evaluates a loan application and returns a decision.
+
 ### Global Structure 
 ![global_sch](https://github.com/mchianale/loan_request_application/blob/main/docs/global_sch_composite.png)
 
@@ -29,6 +43,17 @@ The Property Valuation department is responsible for estimating the market value
 
 4. **ApprovalDecisionService**:  
 The Approval Decision service analyzes the data collected during the stages (Credit Check and Property Valuation) to determine if the home loan can be approved.
+
+---
+
+### Good to know
+
+**Threading Management:**  
+- Multiple requests from different users can be sent to the composite service simultaneously.  
+- **CreditCheckService** and **PropertyValuationService** are executed using `threads`, which helps to save time during the loan evaluation process.
+
+**Cities Data:**  
+- I have created a dataset [cities.csv](https://github.com/mchianale/loan_request_application/blob/main/services/features/data/cities.csv) to enable the computation of the **CreditCheckService** and **PropertyValuationService** scoring systems.
 
 ---
 
