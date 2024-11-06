@@ -13,5 +13,5 @@ This service is the main component that evaluates a loan application and returns
 - When the watchdog detects new loan applications pending, it calls the service composite's main function `run_loan_application` using a `thread` (to handle multiple user requests simultaneously).
 - The service composite calls internal SOAP services and calls the backend depending on the results and the processing state (error, update pending status, add a new valid loan request).
 
-### Service COmposite Structure
+### Service Composite Structure
 ![sch](https://github.com/mchianale/loan_request_application/blob/main/docs/compo.png)
