@@ -41,7 +41,8 @@ This project is a containerized application designed to manage new loan applicat
 
 --- 
 
-- **[Flask Frontend](https://github.com/mchianale/loan_request_application/blob/main/frontend/README.md)**: A user-facing interface built with Flask, allowing applicants and staff to interact with the system. It provides endpoints for submitting loan applications and viewing their evaluation status.
+4.  **[Flask Frontend](https://github.com/mchianale/loan_request_application/blob/main/frontend/README.md)**:
+  - A user-facing interface built with Flask, allowing applicants and staff to interact with the system. It provides endpoints for submitting loan applications and viewing their evaluation status.
 
 --- 
 
