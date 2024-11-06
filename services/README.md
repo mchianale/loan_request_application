@@ -57,7 +57,38 @@ The resulting ratio is typically expressed as a percentage. A lower ratio indica
 
 ### How it works:
 
-We are supposed to know **Monthly Charges** and **Monthly Income** based on the previous service, but the **CreditCheckService** needs to compute **Monthly Payments** based on the requested loan amount, the loan term, and the annual interest rate of the future property region (using data from the regional [barometer](https://www.empruntis.com/financement/actualites/barometres_regionaux.php) which is updated daily).
+We are supposed to know **Monthly Charges** and **Monthly Income** based on the previous service, but the **CreditCheckService** needs to compute **Monthly Payments** based on the requested loan amount, the loan term, and the annual interest rate of the future property region (using data from [the regional barometer](https://www.empruntis.com/financement/actualites/barometres_regionaux.php) which is updated daily).
 
+## PropertyValuationService:
 
-  
+The Property Valuation department is responsible for estimating the market value of the property for which the loan is requested. It helps assess the potential rental yield and the estimated property value based on various parameters like the type of property, its location, and market data.
+
+### How It Works:
+
+1. **Property Type Mapping**:  
+   The service maps the property type provided in the request (e.g., house, apartment) to a corresponding type used in the market data. This is done using predefined mappings for different property types (`map_type_logement_v0` and `map_type_logement_v1`).
+
+2. **Surface Area Calculation**:  
+   The service calculates the **average surface area** based on the property type and location (using INSEE code). If the surface data isn't available from the market, a fallback method is used, which provides default surface values depending on the property type.
+
+3. **Market Data Retrieval**:  
+   Using the French [DVF API (Base des Valeurs Foncières)](https://github.com/cquest/dvf_as_api?tab=readme-ov-file), the service fetches recent property sales data for the specified location. It checks the sale price and the real surface area of properties similar to the one being evaluated. The data is filtered to include only properties within a reasonable range of the loan amount plus down payment.
+
+4. **Rental Yield Calculation**:  
+   The rental yield is computed based on the market rent for a similar property and the loan amount. This helps in determining if the property is a profitable investment, particularly for rental purposes.
+
+### Key Calculations:
+
+- **Rental Yield**:  
+  The rental yield is calculated as:  
+  `Rental Yield = (Annual Rent / (Loan Amount + Down Payment)) * 100`
+
+- **Property Surface Area**:  
+  If detailed surface data is available, it is used to calculate the estimated property value per square meter. If not, average values are used based on the type of property.
+
+- **Annual Rent**:  
+  The annual rent is calculated based on the **average rent per square meter** for the property type and location, multiplied by the **property surface area**.
+
+- **Potential Property Value**:  
+  The potential property value is determined by adding the loan amount and down payment, then applying a threshold ratio to estimate the market value.
+
