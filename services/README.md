@@ -53,6 +53,7 @@ The debt ratio is used to evaluate the borrower's ability to repay a loan based 
 The resulting ratio is typically expressed as a percentage. A lower ratio indicates a healthier financial situation, while a higher ratio may signal financial strain.
 
 
-**How it works:**
+**How it works:**:
+- We are supposed toà know **Monthly Charges** and **Monthly Income** based on previous service, but CreditCheckService need to compute **Monthly Payments** based on yearly rate of the future property region (by request [baroemtre regionaux]("https://www.empruntis.com/financement/actualites/barometres_regionaux.php) which are udpated everyday. 
 
   
