@@ -33,7 +33,7 @@ The Approval Decision service analyzes the data collected during the stages (Cre
 ---
 
 ## ServiceExtraction  
-The ServiceExtraction is responsible for extracting entities from requests using a fine-tuned transformer model and cleaning the output using NLP rules.
+The `ServiceExtraction` is responsible for extracting entities from requests using a fine-tuned transformer model and cleaning the output using NLP rules.
 
 ServiceExtraction takes in input an unclean text and extracts variables useful to evaluate the loan (contact information, user situation, property information, loan information, etc.).
 
@@ -47,7 +47,7 @@ ServiceExtraction takes in input an unclean text and extracts variables useful t
 
 ## CreditCheckService:
 
-The Credit Check service is responsible for assessing the financial capacity of the customer to repay the loan. Based on useful entities to evaluate the profile, this service calculates the debt ratio of the user.
+The `CreditCheckService` is responsible for assessing the financial capacity of the customer to repay the loan. Based on useful entities to evaluate the profile, this service calculates the debt ratio of the user.
 
 ### Debt Ratio:
 
@@ -69,7 +69,7 @@ We are supposed to know **Monthly Charges** and **Monthly Income** based on the 
 
 ## PropertyValuationService:
 
-The Property Valuation department is responsible for estimating the market value of the property for which the loan is requested. It helps assess the potential rental yield and the estimated property value based on various parameters like the type of property, its location, and market data.
+The `PropertyValuationService` is responsible for estimating the market value of the property for which the loan is requested. It helps assess the potential rental yield and the estimated property value based on various parameters like the type of property, its location, and market data.
 
 ### How It Works:
 
@@ -100,3 +100,37 @@ The Property Valuation department is responsible for estimating the market value
 - **Potential Property Value**:  
   The potential property value is determined by adding the loan amount and down payment, then applying a threshold ratio to estimate the market value.
 
+---
+
+## ApprovalDecisionService
+
+The `ApprovalDecisionService` class provides a comprehensive service to determine whether a home loan can be approved based on a variety of factors. These factors include the user's financial situation (such as income, debts, etc.), property information (such as valuation, rental yield, etc.), and predefined scoring rules. The service calculates different scores, such as the user score, property score, and global score, to assess whether a loan request is approved or denied.
+
+### Key Components:
+
+1. **Scoring Rules**:
+   - Scoring is applied to both the user and property details.
+   - The scoring rules are loaded from a JSON file, which determines how much weight each factor carries in the scoring process. For example, professions with more stable income (like civil servants) are given higher scores, while freelance or unstable income professions have lower scores.
+
+2. **Data Processing**:
+   - The service processes data provided in three main objects:
+     - **`ExtractObj`**: Contains user information and financial details like monthly income, expenses, etc.
+     - **`CreditCheckInformation`**: Contains loan-specific data such as debt ratio, region rate, and loan terms.
+     - **`PropertyValuationInformation`**: Contains property-specific data like surface area, rental yield, and mean monthly rent.
+   
+3. **Scoring Calculations**:
+   - **User Situation Score**: Based on the user's profession or situation (such as being employed or self-employed), a score is assigned.
+   - **Cash Flow Score**: Based on the monthly cash flow (income minus expenses and loan payments), the service assigns a score. Positive cash flow results in a higher score, while negative cash flow results in a lower score.
+   - **Confidence Score**: The overall confidence in the loan approval is determined by evaluating various factors like region, debt ratio, rental yield, and cash flow. This score helps to weigh the importance of each factor.
+
+4. **Decision Making**:
+   - The `getScoring` method computes the user score, property score, and global score. It then compares these scores against a set of predefined rules to make an approval decision.
+   - The final decision (`approve` or `deny`) is determined based on the scoring results and the application of the predefined rules.
+   
+5. **Approval Messages**:
+   - If the loan is approved, the service provides detailed messages about the approval, including feedback on the user's financial situation and the property score. The messages are constructed based on the calculated scores and their respective confidence levels.
+   - If the loan is denied, the service provides a message indicating the reason for denial, such as a high debt ratio or low global score.
+
+6. **Error Handling**:
+   - The service checks for errors in the calculated scores, ensuring that all values are within expected ranges (e.g., confidence scores between 0 and 100, valid user situation scores).
+   - If any errors are detected, an error message is returned with details about the issue.
