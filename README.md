@@ -21,17 +21,23 @@ This project is a containerized application designed to manage new loan applicat
 
 --- 
 
-- **MongoDB**: A NoSQL database used to store user and loan data persistently. It serves as the primary data repository, maintaining crucial records for the backend to query and update as needed.
+1. **MongoDB**:
+   - A NoSQL database used to store user and loan data persistently. It serves as the primary data repository, maintaining crucial records for the backend to query and update as needed.
 
 --- 
 
-- **[Backend Service](https://github.com/mchianale/loan_request_application/blob/main/backend/README.md)**: Acts as the core processing unit, handling requests, managing loan applications, and coordinating data with MongoDB. This service also interfaces with the loan evaluation service and is foundational to the application’s operation.
+2. **[Backend Service](https://github.com/mchianale/loan_request_application/blob/main/backend/README.md)**:
+   - Acts as the core processing unit, handling requests, managing loan applications, and coordinating data with MongoDB.
+   - This service also interfaces with the loan evaluation service and is foundational to the application’s operation.
 
 --- 
 
-- **[Loan Service](https://github.com/mchianale/loan_request_application/blob/main/services/README.md)**: This service is responsible for running loan evaluation processes, determining eligibility and assessing risk based on predefined business rules and application data. The service is built with [Spyne](https://spyne.io/), a Python framework for creating SOAP-based web services. 
-Using SOAP (Simple Object Access Protocol), the Loan Service enables structured and reliable messaging that follows a well-defined XML schema. This approach ensures data integrity and supports complex operations between the Loan Service and other parts of the application, like the Backend Service. The Loan Service operates on multiple ports, facilitating concurrent evaluation workflows and ensuring that multiple requests can be processed simultaneously. 
-By using SOAP, the Loan Service can communicate with other applications in a secure and standardized way, making it a robust solution for handling sensitive loan data and evaluations.
+3.  **[Loan Service](https://github.com/mchianale/loan_request_application/blob/main/services/README.md)**:
+   - This service is responsible for running loan evaluation processes, determining eligibility and assessing risk based on predefined business rules and application data.
+   - The service is built with [Spyne](https://spyne.io/), a Python framework for creating SOAP-based web services.
+   - Using SOAP (Simple Object Access Protocol), the Loan Service enables structured and reliable messaging that follows a well-defined XML schema. This approach ensures data integrity and supports complex operations between the Loan Service and other parts of the application, like the Backend Service.
+   - The Loan Service operates on multiple ports, facilitating concurrent evaluation workflows and ensuring that multiple requests can be processed simultaneously.
+   - By using SOAP, the Loan Service can communicate with other applications in a secure and standardized way, making it a robust solution for handling sensitive loan data and evaluations.
 
 --- 
 
