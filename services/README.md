@@ -39,7 +39,20 @@ ServiceExtraction takes in input an unclean text and extracts variables useful t
 - Applies cleaning functionalities and NLP rules on the extracted entities to obtain the final cleaned entities.
 - Based on other rules, it returns an `error` and stops the process if important variables for loan evaluation are missing in the final entities.
 
+## CreditCheckService:
+The Credit Check service is responsible for assessing the financial capacity of the customer to repay the loan.
+Based on usefull entities to evaluate profile, this service find the debt ratio of the user.
+
+**Debt ration :**
+
+The debt ratio is used to evaluate the borrower's ability to repay a loan based on their monthly income and financial obligations.
+- **Debt ratio ** = (**Monthly Payments**+**Monthly Charges**)/**Monthly Income** in %
+- **Monthly Payments**: This is the monthly debt payments due to the potential loan application.
+- **Monthly Charges**: These are additional regular financial obligations, such as rent, utilities, or any other recurring charges.
+- **Monthly Income**: This is the gross monthly income before taxes and other deductions.
+The resulting ratio is typically expressed as a percentage. A lower ratio indicates a healthier financial situation, while a higher ratio may signal financial strain.
 
 
+**How it works:**
 
   
