@@ -46,7 +46,7 @@ Based on usefull entities to evaluate profile, this service find the debt ratio 
 **Debt ration :**
 
 The debt ratio is used to evaluate the borrower's ability to repay a loan based on their monthly income and financial obligations.
-- **Debt ratio ** = (**Monthly Payments**+**Monthly Charges**)/**Monthly Income** in %
+- **Debt ratio** = (**Monthly Payments**+**Monthly Charges**)/**Monthly Income** in %
 - **Monthly Payments**: This is the monthly debt payments due to the potential loan application.
 - **Monthly Charges**: These are additional regular financial obligations, such as rent, utilities, or any other recurring charges.
 - **Monthly Income**: This is the gross monthly income before taxes and other deductions.
