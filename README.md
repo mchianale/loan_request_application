@@ -15,6 +15,8 @@ This project is a containerized application designed to manage new loan applicat
 - [Citation](#citation)
   
 ## Demo
+[![GitHub Logo](https://github.com/mchianale/loan_request_application/blob/main/docs/play.png)](https://github.com)
+
 ## Introduction 
 ![global_sch](https://github.com/mchianale/loan_request_application/blob/main/docs/global_sch.png)
 
