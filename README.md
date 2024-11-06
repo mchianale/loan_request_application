@@ -65,7 +65,7 @@ This project is a containerized application designed to manage new loan applicat
 
 ## Reuse
 To use the model I had trained to extract loan information entities [see here](https://github.com/mchianale/camemBERT-entities-extraction) :
-- **the trained model :** [3_camembert-base](https://huggingface.co/mchianale/Camembert-for-Real-Estate-Loan-Entity-Extraction-fr/tree/main/3_camembert-base).
+- **the trained model :** [Camembert-for-Real-Estate-Loan-Entity-Extraction-fr](https://huggingface.co/mchianale/Camembert-for-Real-Estate-Loan-Entity-Extraction-fr/tree/main/3_camembert-base).
 - Download `3_camembert-base` folder, on put it in `./models`.
 ### Config for all
 **[config.json](https://github.com/mchianale/loan_request_application/blob/main/config.json) :**
