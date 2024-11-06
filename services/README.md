@@ -16,14 +16,30 @@ This service is the main component that evaluates a loan application and returns
 ### Service Composite Structure
 ![sch](https://github.com/mchianale/loan_request_application/blob/main/docs/compo.png)
 
-**ServiceExtraction**:  
+1. **ServiceExtraction**:  
 The ServiceExtraction is responsible for extracting entities from requests using a fine-tuned transformer model and cleaning the output using NLP rules.
 
-**CreditCheckService**:  
+2. **CreditCheckService**:  
 The Credit Check service is responsible for assessing the financial capacity of the customer to repay the loan.
 
-**PropertyValuationService**:  
+3. **PropertyValuationService**:  
 The Property Valuation department is responsible for estimating the market value of the property for which the loan is requested.
 
-**ApprovalDecisionService**:  
+4. **ApprovalDecisionService**:  
 The Approval Decision service analyzes the data collected during the stages (Credit Check and Property Valuation) to determine if the home loan can be approved.
+
+## ServiceExtraction  
+The ServiceExtraction is responsible for extracting entities from requests using a fine-tuned transformer model and cleaning the output using NLP rules.
+
+ServiceExtraction takes in input an unclean text and extracts variables useful to evaluate the loan (contact information, user situation, property information, loan information, etc.).
+
+**How it works:**
+- Firstly, it performs preprocessing on the input text (retrieving words based on NLP rules).
+- Based on the cleaned text, it calls a fine-tuned **CamemBERT** model to extract entities. The original **CamemBERT** model is a transformer-based language model pre-trained on large amounts of French text data. It is optimized for various NLP tasks, including token classification, and can be fine-tuned for specific tasks such as entity extraction. To see more informations about how I trained my model [see here](https://github.com/mchianale/camemBERT-entities-extraction).
+- Applies cleaning functionalities and NLP rules on the extracted entities to obtain the final cleaned entities.
+- Based on other rules, it returns an `error` and stops the process if important variables for loan evaluation are missing in the final entities.
+
+
+
+
+  
