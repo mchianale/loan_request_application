@@ -67,7 +67,7 @@ ServiceExtraction takes in input an unclean text and extracts variables useful t
 - Based on the cleaned text, it calls a fine-tuned **CamemBERT** model to extract entities. The original **CamemBERT** model is a transformer-based language model pre-trained on large amounts of French text data. It is optimized for various NLP tasks, including token classification, and can be fine-tuned for specific tasks such as entity extraction. To see more informations about how I trained my model [see here](https://github.com/mchianale/camemBERT-entities-extraction).
 - To use the model I had trained to extract loan information entities [see here](https://github.com/mchianale/camemBERT-entities-extraction) :
    - **the trained model :** [Camembert-for-Real-Estate-Loan-Entity-Extraction-fr](https://huggingface.co/mchianale/Camembert-for-Real-Estate-Loan-Entity-Extraction-fr/tree/main/3_camembert-base).
-- Download `3_camembert-base` folder, on put it in `./models`.
+      - Download `3_camembert-base` folder, on put it in `./models`.
 - Applies cleaning functionalities and NLP rules on the extracted entities to obtain the final cleaned entities.
 - Based on other rules, it returns an `error` and stops the process if important variables for loan evaluation are missing in the final entities.
 
