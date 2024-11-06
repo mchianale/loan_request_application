@@ -6,6 +6,7 @@ This project is a containerized application designed to manage new loan applicat
 ## Table of Contents
 - [Demo](#demo)
 - [Introduction](#introduction)
+- [Security](#security)
 - [Reuse](#reuse)
   - [Config for all](#config-for-all)
   - [To edit](#to-edit)
@@ -45,6 +46,22 @@ This project is a containerized application designed to manage new loan applicat
     - A user-facing interface built with Flask, allowing applicants and staff to interact with the system. It provides endpoints for submitting loan applications and viewing their evaluation status.
 
 --- 
+
+## Security
+
+- **Isolate Database from Frontend and Loan Services**:  
+  Ensure that the database is not directly exposed to the frontend or loan services. Use secure APIs and backend logic to interact with the database.
+
+- **Apply Logical Routes in Frontend**:  
+  Implement logic in the frontend to block certain components for malicious or unauthorized users. This prevents access to sensitive features based on the user's role or authentication status.
+
+- **Managing User Sessions**:  
+  Create a sign-in and login system in the backend that generates a `session_id` for each user. User passwords should be hashed and salted to increase security and prevent unauthorized access.
+
+- **Prevent Multiple Requests from the Same User**:  
+  To avoid multiple requests from the same user simultaneously, implement a management system that handles session states and limits duplicate submissions. This can be achieved through both backend and frontend logic.
+
+---
 
 ## Reuse
 ### Config for all
