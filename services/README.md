@@ -13,6 +13,8 @@ This service is the main component that evaluates a loan application and returns
 - When the watchdog detects new loan applications pending, it calls the service composite's main function `run_loan_application` using a `thread` (to handle multiple user requests simultaneously).
 - The service composite calls internal SOAP services and calls the backend depending on the results and the processing state (error, update pending status, add a new valid loan request).
 
+---
+
 ### Service Composite Structure
 ![sch](https://github.com/mchianale/loan_request_application/blob/main/docs/compo.png)
 
@@ -28,6 +30,8 @@ The Property Valuation department is responsible for estimating the market value
 4. **ApprovalDecisionService**:  
 The Approval Decision service analyzes the data collected during the stages (Credit Check and Property Valuation) to determine if the home loan can be approved.
 
+---
+
 ## ServiceExtraction  
 The ServiceExtraction is responsible for extracting entities from requests using a fine-tuned transformer model and cleaning the output using NLP rules.
 
@@ -38,6 +42,8 @@ ServiceExtraction takes in input an unclean text and extracts variables useful t
 - Based on the cleaned text, it calls a fine-tuned **CamemBERT** model to extract entities. The original **CamemBERT** model is a transformer-based language model pre-trained on large amounts of French text data. It is optimized for various NLP tasks, including token classification, and can be fine-tuned for specific tasks such as entity extraction. To see more informations about how I trained my model [see here](https://github.com/mchianale/camemBERT-entities-extraction).
 - Applies cleaning functionalities and NLP rules on the extracted entities to obtain the final cleaned entities.
 - Based on other rules, it returns an `error` and stops the process if important variables for loan evaluation are missing in the final entities.
+
+---
 
 ## CreditCheckService:
 
@@ -58,6 +64,8 @@ The resulting ratio is typically expressed as a percentage. A lower ratio indica
 ### How it works:
 
 We are supposed to know **Monthly Charges** and **Monthly Income** based on the previous service, but the **CreditCheckService** needs to compute **Monthly Payments** based on the requested loan amount, the loan term, and the annual interest rate of the future property region (using data from [the regional barometer](https://www.empruntis.com/financement/actualites/barometres_regionaux.php) which is updated daily).
+
+---
 
 ## PropertyValuationService:
 
