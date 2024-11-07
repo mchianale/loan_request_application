@@ -1,4 +1,4 @@
-# Real estate loan application Service
+# Real estate loan application Service (France)
 This project is a containerized application designed to manage new loan applications, automatically evaluating each request based on multiple integrated services. The application leverages Docker to streamline service deployment and orchestration, ensuring a modular, scalable setup.
 
 ---
